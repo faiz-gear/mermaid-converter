@@ -1,8 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mermaid Converter
 
-## Getting Started
+基于 Next.js 和 LangChain 的需求文档转 Mermaid 图表工具。
 
-First, run the development server:
+## 功能特点
+
+- 📝 支持多种文档格式（.txt, .doc, .docx, .pdf, .md）
+- 🔄 自动转换为 Mermaid Graph TD 格式
+- 👀 实时预览生成的流程图
+- 📊 结构化输出（标题、描述、节点、关系）
+- 💾 支持导出 Mermaid 文件
+- 🎨 清晰的节点和关系展示
+
+## 技术栈
+
+- Next.js 15
+- LangChain.js
+- Mermaid
+- Tailwind CSS
+- TypeScript
+
+## 本地开发
+
+1. 克隆项目
 
 ```bash
 npm run dev
