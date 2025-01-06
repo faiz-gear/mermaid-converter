@@ -1,5 +1,9 @@
 # Mermaid Converter
 
+[English](#english) | [中文](#中文)
+
+# 中文
+
 基于 Next.js 和 LangChain 的需求文档转 Mermaid 图表工具。
 
 ## 功能特点
@@ -19,37 +23,165 @@
 - Tailwind CSS
 - TypeScript
 
-## 本地开发
+## 快速开始
 
 1. 克隆项目
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/yourusername/mermaid-converter.git
+cd mermaid-converter
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. 安装依赖
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. 配置环境变量
 
-## Learn More
+```bash
+cp .env.example .env.local
+# 编辑 .env.local 添加必要的配置
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. 启动开发服务器
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 代码提交
 
-## Deploy on Vercel
+使用规范化的提交信息：
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run commit
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 开发路线图
+
+### 1.0 版本
+
+- [x] 基础文档转换功能
+- [x] Mermaid 图表预览
+- [x] 导出功能
+- [x] 错误处理
+- [x] 类型安全
+
+### 2.0 版本（进行中）
+
+- [ ] UI 优化
+
+  - [ ] 集成 shadcn/ui 组件库
+  - [ ] 优化布局和交互体验
+  - [ ] 添加深色模式支持
+  - [ ] 响应式设计优化
+
+- [ ] 提示词优化
+
+  - [ ] 优化文档解析准确度
+  - [ ] 支持更复杂的流程图生成
+  - [ ] 添加更多图表类型支持
+  - [ ] 自定义提示词模板
+
+- [ ] 项目管理集成
+  - [ ] 支持项目维度的需求管理
+  - [ ] 需求版本控制
+  - [ ] 需求关联关系
+  - [ ] 导出完整项目文档
+
+---
+
+# English
+
+A tool for converting requirement documents to Mermaid diagrams, built with Next.js and LangChain.
+
+## Features
+
+- 📝 Multiple document formats support (.txt, .doc, .docx, .pdf, .md)
+- 🔄 Automatic conversion to Mermaid Graph TD format
+- 👀 Real-time diagram preview
+- 📊 Structured output (title, description, nodes, relationships)
+- 💾 Mermaid file export
+- 🎨 Clear node and relationship visualization
+
+## Tech Stack
+
+- Next.js 15
+- LangChain.js
+- Mermaid
+- Tailwind CSS
+- TypeScript
+
+## Quick Start
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/yourusername/mermaid-converter.git
+cd mermaid-converter
+```
+
+2. Install dependencies
+
+```bash
+npm install
+```
+
+3. Configure environment variables
+
+```bash
+cp .env.example .env.local
+# Edit .env.local with necessary configurations
+```
+
+4. Start development server
+
+```bash
+npm run dev
+```
+
+## Commit Code
+
+Use standardized commit messages:
+
+```bash
+npm run commit
+```
+
+## Roadmap
+
+### Version 1.0
+
+- [x] Basic document conversion
+- [x] Mermaid diagram preview
+- [x] Export functionality
+- [x] Error handling
+- [x] Type safety
+
+### Version 2.0 (In Progress)
+
+- [ ] UI Improvements
+
+  - [ ] Integration of shadcn/ui components
+  - [ ] Layout and interaction optimization
+  - [ ] Dark mode support
+  - [ ] Responsive design enhancement
+
+- [ ] Prompt Optimization
+
+  - [ ] Improve document parsing accuracy
+  - [ ] Support for more complex flowcharts
+  - [ ] Additional diagram type support
+  - [ ] Custom prompt templates
+
+- [ ] Project Management Integration
+  - [ ] Project-level requirement management
+  - [ ] Requirement version control
+  - [ ] Requirement relationship mapping
+  - [ ] Complete project documentation export
+
+## License
+
+[MIT](LICENSE)
