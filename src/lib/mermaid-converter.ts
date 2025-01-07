@@ -1,33 +1,33 @@
-import { ChatOpenAI } from '@langchain/openai'
-import { ChatPromptTemplate } from '@langchain/core/prompts'
-import { StructuredOutputParser } from 'langchain/output_parsers'
-import { z } from 'zod'
+import { ChatOpenAI } from "@langchain/openai";
+import { ChatPromptTemplate } from "@langchain/core/prompts";
+import { StructuredOutputParser } from "langchain/output_parsers";
+import { z } from "zod";
 
 export const outputSchema = z.object({
-  title: z.string().describe('需求文档的标题'),
-  description: z.string().describe('需求文档的简要描述'),
-  mermaidCode: z.string().describe('生成的Mermaid Graph TD代码'),
+  title: z.string().describe("需求文档的标题"),
+  description: z.string().describe("需求文档的简要描述"),
+  mermaidCode: z.string().describe("生成的Mermaid Graph TD代码"),
   nodes: z
     .array(
       z.object({
         id: z.string(),
         label: z.string(),
-        description: z.string().optional()
-      })
+        description: z.string().optional(),
+      }),
     )
-    .describe('图表中的所有节点'),
+    .describe("图表中的所有节点"),
   edges: z
     .array(
       z.object({
         from: z.string(),
         to: z.string(),
-        label: z.string().optional()
-      })
+        label: z.string().optional(),
+      }),
     )
-    .describe('节点之间的连接关系')
-})
+    .describe("节点之间的连接关系"),
+});
 
-export type ConversionOutput = z.infer<typeof outputSchema>
+export type ConversionOutput = z.infer<typeof outputSchema>;
 
 const PROMPT_TEMPLATE = `
 - Role: 需求文档分析专家
@@ -48,69 +48,82 @@ const PROMPT_TEMPLATE = `
 {text}
 
 {format_instructions}
-`
+`;
 
 export class ConversionError extends Error {
-  constructor(message: string, public readonly details?: any) {
-    super(message)
-    this.name = 'ConversionError'
+  constructor(
+    message: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    public readonly details?: any,
+  ) {
+    super(message);
+    this.name = "ConversionError";
   }
 }
 
-export async function convertToMermaid(text: string): Promise<ConversionOutput> {
+export async function convertToMermaid(
+  text: string,
+): Promise<ConversionOutput> {
   try {
     if (!process.env.OPENAI_API_KEY) {
-      throw new ConversionError('OpenAI API密钥未配置')
+      throw new ConversionError("OpenAI API密钥未配置");
     }
 
     if (!text.trim()) {
-      throw new ConversionError('需求文档内容不能为空')
+      throw new ConversionError("需求文档内容不能为空");
     }
 
-    const parser = StructuredOutputParser.fromZodSchema(outputSchema)
-    const formatInstructions = parser.getFormatInstructions()
+    const parser = StructuredOutputParser.fromZodSchema(outputSchema);
+    const formatInstructions = parser.getFormatInstructions();
 
-    const prompt = ChatPromptTemplate.fromTemplate(PROMPT_TEMPLATE)
+    const prompt = ChatPromptTemplate.fromTemplate(PROMPT_TEMPLATE);
 
     const chat = new ChatOpenAI(
       {
         modelName: process.env.OPENAI_MODEL_NAME,
         temperature: 0,
-        apiKey: process.env.OPENAI_API_KEY
+        apiKey: process.env.OPENAI_API_KEY,
       },
       {
-        baseURL: process.env.OPENAI_BASE_URL
-      }
-    )
+        baseURL: process.env.OPENAI_BASE_URL,
+      },
+    );
 
-    const chain = prompt.pipe(chat)
+    const chain = prompt.pipe(chat);
 
     const response = await chain.invoke({
       text: text,
-      format_instructions: formatInstructions
-    })
+      format_instructions: formatInstructions,
+    });
 
     if (!response.content) {
-      throw new ConversionError('AI模型返回的内容为空')
+      throw new ConversionError("AI模型返回的内容为空");
     }
 
-    const content = typeof response.content === 'string' ? response.content : JSON.stringify(response.content)
+    const content =
+      typeof response.content === "string"
+        ? response.content
+        : JSON.stringify(response.content);
 
-    const parsedOutput = await parser.parse(content)
-    return parsedOutput
+    const parsedOutput = await parser.parse(content);
+    return parsedOutput;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error instanceof ConversionError) {
-      throw error
+      throw error;
     }
 
     if (error.response?.status === 429) {
-      throw new ConversionError('API请求次数超限，请稍后重试')
+      throw new ConversionError("API请求次数超限，请稍后重试");
     }
 
     if (error.response?.status === 401) {
-      throw new ConversionError('API认证失败，请检查API密钥配置')
+      throw new ConversionError("API认证失败，请检查API密钥配置");
     }
 
-    throw new ConversionError('转换过程中发生错误', error instanceof Error ? error.message : String(error))
+    throw new ConversionError(
+      "转换过程中发生错误",
+      error instanceof Error ? error.message : String(error),
+    );
   }
 }
