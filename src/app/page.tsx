@@ -1,50 +1,37 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import FileUpload from '@/components/FileUpload'
-import MermaidPreview from '@/components/MermaidPreview'
-import ExportButton from '@/components/ExportButton'
-import { z } from 'zod'
-
-const previewSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-  mermaidCode: z.string(),
-  nodes: z.array(
-    z.object({
-      id: z.string(),
-      label: z.string(),
-      description: z.string().optional()
-    })
-  ),
-  edges: z.array(
-    z.object({
-      from: z.string(),
-      to: z.string(),
-      label: z.string().optional()
-    })
-  )
-})
+import { useState } from "react";
+import { ThemeToggle } from "@/components/theme-toggle";
+import FileUpload from "@/components/FileUpload";
+import MermaidPreview from "@/components/MermaidPreview";
+import ExportButton from "@/components/ExportButton";
+import { ConversionOutput } from "@/lib/mermaid-converter";
 
 export default function Home() {
-  const [conversionData, setConversionData] = useState<z.infer<typeof previewSchema> | null>(null)
-
-  const handleFileConverted = (data: z.infer<typeof previewSchema>) => {
-    setConversionData(data)
-  }
+  const [conversionData, setConversionData] = useState<ConversionOutput | null>(
+    null,
+  );
 
   return (
-    <main className="min-h-screen p-8">
-      <h1 className="text-3xl font-bold mb-8">需求文档转换工具</h1>
-      <div className="grid grid-cols-1 gap-8">
-        <FileUpload onFileConverted={handleFileConverted} />
+    <div className="min-h-screen bg-background">
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-14 items-center justify-between">
+          <h1 className="text-xl font-bold">需求文档转换工具</h1>
+          <ThemeToggle />
+        </div>
+      </header>
+
+      <main className="container mx-auto py-8 px-4 space-y-8">
+        <FileUpload onFileConverted={setConversionData} />
         {conversionData && (
-          <>
+          <div className="space-y-8">
             <MermaidPreview data={conversionData} />
-            <ExportButton mermaidCode={conversionData.mermaidCode} />
-          </>
+            <div className="flex justify-end">
+              <ExportButton mermaidCode={conversionData.mermaidCode} />
+            </div>
+          </div>
         )}
-      </div>
-    </main>
-  )
+      </main>
+    </div>
+  );
 }
