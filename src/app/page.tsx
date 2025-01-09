@@ -1,37 +1,25 @@
-"use client";
+import Link from "next/link";
 
-import { useState } from "react";
-import { ThemeToggle } from "@/components/theme-toggle";
-import FileUpload from "@/components/FileUpload";
-import MermaidPreview from "@/components/MermaidPreview";
-import ExportButton from "@/components/ExportButton";
-import { ConversionOutput } from "@/lib/mermaid-converter";
-
-export default function Home() {
-  const [conversionData, setConversionData] = useState<ConversionOutput | null>(
-    null,
-  );
-
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 items-center justify-between">
-          <h1 className="text-xl font-bold">需求文档转换工具</h1>
-          <ThemeToggle />
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold mb-8">Welcome to Your App</h1>
+        <div className="space-x-4">
+          <Link
+            href="/login"
+            className="inline-block bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700"
+          >
+            Login
+          </Link>
+          <Link
+            href="/dashboard"
+            className="inline-block bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700"
+          >
+            Dashboard
+          </Link>
         </div>
-      </header>
-
-      <main className="container mx-auto py-8 px-4 space-y-8">
-        <FileUpload onFileConverted={setConversionData} />
-        {conversionData && (
-          <div className="space-y-8">
-            <MermaidPreview data={conversionData} />
-            <div className="flex justify-end">
-              <ExportButton mermaidCode={conversionData.mermaidCode} />
-            </div>
-          </div>
-        )}
-      </main>
+      </div>
     </div>
   );
 }
