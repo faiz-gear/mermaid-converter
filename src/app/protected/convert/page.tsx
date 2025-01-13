@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
-import FileUpload from "@/components/FileUpload";
-import MermaidPreview from "@/components/MermaidPreview";
-import ExportButton from "@/components/ExportButton";
+import FileUpload from "@/components/protected/convert/file-upload";
+import MermaidPreview from "@/components/protected/convert/mermaid-preview";
+import ExportButton from "@/components/protected/convert/export-button";
 import { ConversionOutput } from "@/lib/mermaid-converter";
 
 export default function Home() {

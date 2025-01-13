@@ -50,7 +50,7 @@ export const signInAction = async (formData: FormData) => {
   });
 
   if (error) {
-    return encodedRedirect("error", "/sign-in", error.message);
+    return redirect("/sign-in?message=Could not authenticate user");
   }
 
   return redirect("/dashboard");

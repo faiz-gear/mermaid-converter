@@ -1,61 +1,61 @@
-'use client'
+"use client";
 
-import { useEffect, useRef } from 'react'
-import mermaid from 'mermaid'
-import { ConversionOutput } from '@/lib/mermaid-converter'
+import { useEffect, useRef } from "react";
+import mermaid from "mermaid";
+import { ConversionOutput } from "@/lib/mermaid-converter";
 
 interface MermaidPreviewProps {
-  data: ConversionOutput
+  data: ConversionOutput;
 }
 
 export default function MermaidPreview({ data }: MermaidPreviewProps) {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const initAndRender = async () => {
       try {
         // 重置容器内容
         if (containerRef.current) {
-          containerRef.current.innerHTML = ''
+          containerRef.current.innerHTML = "";
         }
 
         // 初始化配置
         await mermaid.initialize({
           startOnLoad: false,
-          theme: 'default',
-          securityLevel: 'loose',
+          theme: "default",
+          securityLevel: "loose",
           flowchart: {
             htmlLabels: true,
-            curve: 'linear'
-          }
-        })
+            curve: "linear",
+          },
+        });
 
         if (containerRef.current && data.mermaidCode) {
           // 确保代码格式正确
-          const code = `graph TD\n${data.mermaidCode.replace(/^graph TD\s*/i, '')}`
-          console.log('Rendering mermaid code:', code) // 调试用
+          const code = `graph TD\n${data.mermaidCode.replace(/^graph TD\s*/i, "")}`;
+          console.log("Rendering mermaid code:", code); // 调试用
 
           // 创建新的渲染容器
-          const tempId = `mermaid-${Date.now()}`
-          containerRef.current.innerHTML = `<div id="${tempId}"></div>`
+          const tempId = `mermaid-${Date.now()}`;
+          containerRef.current.innerHTML = `<div id="${tempId}"></div>`;
 
-          const { svg } = await mermaid.render(tempId, code)
-          containerRef.current.innerHTML = svg
+          const { svg } = await mermaid.render(tempId, code);
+          containerRef.current.innerHTML = svg;
         }
       } catch (error) {
-        console.error('Mermaid rendering error:', error)
+        console.error("Mermaid rendering error:", error);
         if (containerRef.current) {
           containerRef.current.innerHTML = `
             <div class="text-red-500 p-4">
-              图表渲染失败: ${error instanceof Error ? error.message : '未知错误'}
+              图表渲染失败: ${error instanceof Error ? error.message : "未知错误"}
             </div>
-          `
+          `;
         }
       }
-    }
+    };
 
-    initAndRender()
-  }, [data.mermaidCode])
+    initAndRender();
+  }, [data.mermaidCode]);
 
   return (
     <div className="space-y-4">
@@ -73,7 +73,9 @@ export default function MermaidPreview({ data }: MermaidPreviewProps) {
             {data?.nodes?.map((node) => (
               <li key={node.id} className="text-sm">
                 <span className="font-medium">{node.label}</span>
-                {node.description && <p className="text-gray-500 ml-2">{node.description}</p>}
+                {node.description && (
+                  <p className="text-gray-500 ml-2">{node.description}</p>
+                )}
               </li>
             ))}
           </ul>
@@ -84,12 +86,14 @@ export default function MermaidPreview({ data }: MermaidPreviewProps) {
             {data?.edges?.map((edge, index) => (
               <li key={index} className="text-sm">
                 {edge.from} → {edge.to}
-                {edge.label && <span className="text-gray-500 ml-2">({edge.label})</span>}
+                {edge.label && (
+                  <span className="text-gray-500 ml-2">({edge.label})</span>
+                )}
               </li>
             ))}
           </ul>
         </div>
       </div>
     </div>
-  )
+  );
 }

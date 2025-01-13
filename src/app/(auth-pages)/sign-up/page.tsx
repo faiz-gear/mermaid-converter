@@ -1,6 +1,7 @@
-import LoginForm from "@/components/auth/login-form";
+import RegisterForm from "@/components/auth/register-form";
 import { Message } from "@/components/form-message";
-export default async function SignInPage(props: {
+
+export default async function SignUpPage(props: {
   searchParams: Promise<Message>;
 }) {
   const searchParams = await props.searchParams;
@@ -9,10 +10,10 @@ export default async function SignInPage(props: {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
+            Create an account
           </h2>
         </div>
-        <LoginForm searchParams={searchParams} />
+        <RegisterForm searchParams={searchParams} />
       </div>
     </div>
   );

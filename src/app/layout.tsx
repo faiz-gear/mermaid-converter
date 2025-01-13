@@ -3,8 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Your App",
-  description: "Your app description",
+  title: "Mermaid AI Converter",
+  description: "Convert Your Thoughts into Mermaid Diagrams",
 };
 
 export default function RootLayout({
